@@ -3,30 +3,73 @@
 const pg = require('pg')
 const express = require('express')
 const app = express()
-const conString = postgres://sabrina:postgres@localhost/bulletinboard
+const conString = 'postgres://postgres:postgres@localhost/bulletinboard'
+const bodyParser = require('body-parser')
 
+app.use(express.static(__dirname + '/static'))
 
 app.set('view engine', 'pug')
 app.set('views', __dirname + '/../views')
 
-app.get('/index', (req, res) => {
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
+app.get('/', (req, res) => {
 	console.log('index is running')
 	res.render('index')
 })
 
 app.get('/guestbook', (req, res) => {
 	console.log('guestbook is running')
-	res.render('guestbook')
+	pg.connect(conString, (err, client, done) => {
+		if (err) throw err
+		client.query(`SELECT * FROM	messages`,
+
+		function (err, result) {
+			console.log(result)
+
+			done()
+			pg.end()
+			res.render('guestbook', {data: result.rows})
+			console.log(result)
+		})
+	})
 })
 
+app.post('/createPost', (req, res) => {
+	console.log('sending a post request to add entry to database')
 
-pg.connect(conString, (err, client, done) => {
+	let titleU = req.body.inputTitle
+	let messageU = req.body.inputMessage
+	console.log(titleU)
+	console.log(messageU)
+
+	pg.connect(conString, (err, client, done) => {
+		if (err) throw err
+		client.query(`insert into messages
+			(title, body)
+			values
+			($1, $2)`, [titleU, messageU] , 
+			function(err, result) {
+				console.log(result)			
+				done()
+				pg.end()
+				res.redirect('/guestbook')
+		})
+	})
+})
+
+app.post('guestbook', (req, res) => {
+	
+})
+
+var apple = 3
+console.log(`stringstring ${apple}`)
+
+app.post('/guestbook', (req, res) => {
 	if (err) throw err
 	client.query()
-	done()
-	pg.end()
 })
-
 
 app.listen(8000, () => {
 	console.log('Server is running')

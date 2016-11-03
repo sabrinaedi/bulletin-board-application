@@ -2,3 +2,5 @@ html
 	head
 		body
 			h1 guestbook
+			each thing in data
+				li #{thing.title} #{thing.body}
