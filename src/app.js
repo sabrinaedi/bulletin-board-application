@@ -3,7 +3,7 @@
 const pg = require('pg')
 const express = require('express')
 const app = express()
-const conString = 'postgres://postgres:postgres@localhost/bulletinboard'
+const conString = 'postgres://' + process.env.POSTGRES_USER + ':' + process.env.POSTGRES_PASSWORD + '@localhost/bulletinboard'
 const bodyParser = require('body-parser')
 
 app.use(express.static(__dirname + '/../static'))
