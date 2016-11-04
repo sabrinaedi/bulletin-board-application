@@ -6,7 +6,7 @@ const app = express()
 const conString = 'postgres://postgres:postgres@localhost/bulletinboard'
 const bodyParser = require('body-parser')
 
-app.use(express.static(__dirname + '/static'))
+app.use(express.static(__dirname + '/../static'))
 
 app.set('view engine', 'pug')
 app.set('views', __dirname + '/../views')
@@ -27,7 +27,6 @@ app.get('/guestbook', (req, res) => {
 
 		function (err, result) {
 			console.log(result)
-
 			done()
 			pg.end()
 			res.render('guestbook', {data: result.rows})
@@ -57,18 +56,6 @@ app.post('/createPost', (req, res) => {
 				res.redirect('/guestbook')
 		})
 	})
-})
-
-app.post('guestbook', (req, res) => {
-	
-})
-
-var apple = 3
-console.log(`stringstring ${apple}`)
-
-app.post('/guestbook', (req, res) => {
-	if (err) throw err
-	client.query()
 })
 
 app.listen(8000, () => {

@@ -1,16 +1,41 @@
 html
-	head
-		body
-			h1 Index
 
-			form(method='post' action='/createPost')
+	-var title = Message
+	include includes/header.pug
 
-				p Title of messge
-				input(type='text', name='inputTitle')
+	body
+		nav
+			.nav-wrapper
+				a.brand-logo.center
+					i.material-icons face 
+					ul.left.hide-on-med-and-dow
+						li.active
+							a(href='/') Make a Post
+						li
+							a(href='/guestbook') See Guestbook
 
-				p What do you want to say?
-				input(type='text', name='inputMessage')
 
-				br
-				br
-				input(type='submit' value='submit')
+		h1.center-align Drop a Message!
+		br
+		br
+
+		div.container.center-align
+			div.row.text-align
+				div.col.l6.offset-l3.s12.post
+					div.input-field
+
+						form(method='post' action='/createPost')
+
+							p.center-align Title
+							input(type='text', name='inputTitle')
+
+							p.center-align What's up?
+							textarea(type='text', name='inputMessage')
+
+							br
+							br
+							input(type='submit' value='submit')
+
+	main
+
+	include includes/footer.pug

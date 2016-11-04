@@ -1,6 +1,31 @@
 html
-	head
-		body
-			h1 guestbook
-			each thing in data
-				li #{thing.title} #{thing.body}
+	
+	-var title = Guestbook
+	include includes/header.pug
+
+	body
+
+		nav
+			.nav-wrapper
+				a.brand-logo.center
+					i.material-icons face 
+					ul.left.hide-on-med-and-dow
+						li
+							a(href='/') Make a Post
+						li.active
+							a(href='/guestbook') See Guestbook
+
+		h1.center-align Guestbook
+		br
+		br
+
+		each thing in data
+			div.container.center-align
+				div.row
+					div.col.l6.offset-l3.s12.post
+						p.title #{thing.title}
+						p #{thing.body}
+
+	main
+
+	include includes/footer.pug
